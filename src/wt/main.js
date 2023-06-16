@@ -3,10 +3,25 @@ import os from "os";
 const performCalculations = async () => {
   // Write your code here
   const coresNumber = os.cpus().length;
-  console.log(coresNumber);
-  const worker = new Worker("./worker.js", { workerData: { number: 2 } });
-  worker.on("message", (message) => console.log(message));
-  worker.on("exit", (code) => console.log(code));
+  let result = new Array(coresNumber);
+  let finishedWorkers = 0;
+
+  for (let i = 0; i < coresNumber; i += 1) {
+    const worker = new Worker("./worker.js", {
+      workerData: { number: 10 + i },
+    });
+    worker.on("message", (message) => {
+      if (message.status === "resolved") {
+        result[i] = ['status-"resolved"', `data - ${message.result}`];
+      } else if ((message.status = "error")) {
+        result[i] = ['status-"error"', "data - null"];
+      }
+      finishedWorkers += 1;
+      if (finishedWorkers === coresNumber) {
+        console.log(result);
+      }
+    });
+  }
 };
 
 await performCalculations();

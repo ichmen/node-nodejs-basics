@@ -1,35 +1,48 @@
-import fs from "node:fs/promises";
+import fs from "fs";
 import path from "path";
-const dirName = "src/fs/files";
-const newDirName = "src/fs/files_copy";
+const dirName = "./src/fs/files";
+const newDirName = "./src/fs/files_copy";
 const copy = async () => {
   // Write your code here
-  fs.readdir(dirName, async function (err, files) {
-    if (err) {
-      throw new Error("FS operation failed1");
-    }
-    fs.mkdir(newDirName, { recursive: false }, (err) => {
-      if (err) {
-        throw new Error("FS operation failed2");
-      }
-      console.log("directory created");
-    }).then(() =>
+  new Promise((resolve, reject) => {
+    fs.readdir(path.join(dirName), function (err, files) {
+      resolve(files);
+    });
+  })
+    .then((files) => {
+      fs.mkdirSync(path.join(newDirName));
+      return files;
+    })
+    .then((files) =>
       files.forEach((file) => {
-        fs.copyFile(
+        fs.copyFileSync(
           path.join(dirName, file),
           path.join(newDirName, file),
-          fs.constants.COPYFILE_EXCL,
-          function (err) {
-            if (err) {
-              console.log("here");
-              throw new Error("FS operation failed3");
-            }
-          }
+          fs.constants.COPYFILE_EXCL
         );
       })
-    );
-  });
-  // console.log("files are copied successfully");
+    )
+    .catch((err) => {
+      console.error(err);
+      throw new Error("FS operation failed");
+    });
 };
+
+//   try {
+//     fs.readdir(path.join(dirName), function (err, files) {
+//       fs.mkdirSync(path.join(newDirName));
+//       files.forEach((file) => {
+//         fs.copyFileSync(
+//           path.join(dirName, file),
+//           path.join(newDirName, file),
+//           fs.constants.COPYFILE_EXCL
+//         );
+//       });
+//     });
+//   } catch (err) {
+//     throw new Error("FS operation failed3");
+//   }
+//   // console.log("files are copied successfully");
+// };
 
 await copy();

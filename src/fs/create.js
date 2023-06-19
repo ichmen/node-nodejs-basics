@@ -1,9 +1,9 @@
 import fs from "fs";
-const fileName = "files/fresh.txt";
+import path from "path";
+const fileName = "src/fs/files/fresh.txt";
 
 const create = async () => {
-  fs.open(fileName, "wx", function (err, file) {
-    console.log(err);
+  fs.open(path.join(fileName), "wx", function (err, file) {
     if (err) {
       throw new Error("FS operation failed");
     }

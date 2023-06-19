@@ -7,7 +7,7 @@ const performCalculations = async () => {
   let finishedWorkers = 0;
 
   for (let i = 0; i < coresNumber; i += 1) {
-    const worker = new Worker("./worker.js", {
+    const worker = new Worker("./src/wt/worker.js", {
       workerData: { number: 10 + i },
     });
     worker.on("message", (message) => {

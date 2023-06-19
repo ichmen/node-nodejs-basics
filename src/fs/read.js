@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-const directory = "files";
+const directory = "src/fs/files";
 const fileName = "fileToRead.txt";
 const read = async () => {
   // Write your code here

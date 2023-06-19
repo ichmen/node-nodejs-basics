@@ -1,6 +1,6 @@
 import fs from "fs";
 import crypto from "crypto";
-const fileName = "./files/fileToCalculateHashFor.txt";
+const fileName = "src/hash/files/fileToCalculateHashFor.txt";
 
 const calculateHash = async () => {
   // Write your code here

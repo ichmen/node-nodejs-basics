@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 const fileName = "wrongFilename.txt";
 const newFileName = "properFilename.md";
-const directory = "files";
+const directory = "src/fs/files";
 const rename = async () => {
   // Write your code here
   if (fs.existsSync(path.join(directory, newFileName))) {
